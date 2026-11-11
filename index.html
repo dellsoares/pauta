@@ -1,0 +1,814 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#081a36">
+  <meta name="description" content="Estúdio de Pautas de Autoridade: transforme um tema em uma pauta estratégica para conteúdo, SEO, GEO e conversão.">
+  <title>Estúdio de Pautas de Autoridade | Wendell Soares</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --navy: #081a36;
+      --navy-2: #0d2749;
+      --navy-3: #12375f;
+      --blue: #286092;
+      --gold: #f3c85d;
+      --gold-2: #ffe29a;
+      --cream: #faf4e1;
+      --ice: #eaf0f7;
+      --muted: #a9b9ca;
+      --line: rgba(190, 211, 235, .17);
+      --green: #8ed8b0;
+      --shadow: 0 28px 90px rgba(0, 0, 0, .42);
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body {
+      min-height: 100vh; display: grid; place-items: center; padding: 22px;
+      color: var(--ice);
+      background:
+        radial-gradient(ellipse at 50% 0%, rgba(38, 94, 148, .28), transparent 42%),
+        radial-gradient(ellipse at 8% 88%, rgba(243, 200, 93, .08), transparent 32%),
+        #030d1d;
+    }
+    button, input, select, textarea { font: inherit; }
+    button { cursor: pointer; }
+    button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+      outline: 3px solid var(--gold); outline-offset: 3px;
+    }
+    .app {
+      position: relative; isolation: isolate; display: flex; flex-direction: column;
+      width: min(680px, calc(100vw - 44px), calc((100svh - 44px) * .8));
+      aspect-ratio: 4 / 5; max-height: calc(100svh - 44px); overflow: hidden;
+      border: 1px solid rgba(183, 209, 236, .24); border-radius: 26px;
+      background:
+        radial-gradient(circle at 92% 13%, rgba(42, 100, 157, .25), transparent 28%),
+        radial-gradient(circle at 8% 85%, rgba(243, 200, 93, .075), transparent 24%),
+        linear-gradient(145deg, #0b2140 0%, #07172f 58%, #06152b 100%);
+      box-shadow: var(--shadow), 0 0 0 1px rgba(255,255,255,.025) inset;
+    }
+    .app::before, .app::after {
+      content: ""; position: absolute; z-index: -1; pointer-events: none;
+      border: 1px solid rgba(243, 200, 93, .12); border-radius: 50%; transform: rotate(-27deg);
+    }
+    .app::before { width: 390px; height: 170px; right: -205px; top: 82px; }
+    .app::after { width: 310px; height: 128px; right: -165px; top: 103px; border-color: rgba(117, 174, 224, .15); }
+    .topbar {
+      min-height: 66px; display: flex; align-items: center; justify-content: space-between;
+      gap: 14px; padding: 14px 24px; border-bottom: 1px solid var(--line);
+      background: rgba(4, 15, 32, .22);
+    }
+    .brand { display: flex; align-items: center; gap: 11px; min-width: 0; }
+    .brand-mark {
+      position: relative; flex: 0 0 34px; width: 34px; height: 34px;
+      display: grid; place-items: center; border: 1px solid rgba(243, 200, 93, .62);
+      border-radius: 50%; color: var(--gold); font-size: 10px; font-weight: 800; letter-spacing: -.7px;
+      box-shadow: 0 0 22px rgba(243, 200, 93, .12);
+    }
+    .brand-mark::before {
+      content: ""; position: absolute; width: 43px; height: 15px;
+      border: 1px solid rgba(243, 200, 93, .55); border-radius: 50%; transform: rotate(-34deg);
+    }
+    .brand-name { color: #fff; font-size: 11px; font-weight: 800; letter-spacing: .11em; white-space: nowrap; }
+    .brand-sub { margin-top: 3px; color: #9eb2c9; font-size: 7px; font-weight: 700; letter-spacing: .16em; white-space: nowrap; }
+    .top-tag { color: var(--gold); font-size: 8px; font-weight: 800; letter-spacing: .14em; text-align: right; white-space: nowrap; }
+    .content {
+      flex: 1; min-height: 0; overflow-y: auto; scrollbar-width: thin;
+      scrollbar-color: rgba(243,200,93,.35) transparent; padding: 27px 32px 25px;
+    }
+    .content::-webkit-scrollbar { width: 5px; }
+    .content::-webkit-scrollbar-thumb { background: rgba(243,200,93,.3); border-radius: 10px; }
+    .eyebrow {
+      display: flex; align-items: center; gap: 8px; margin: 0 0 13px;
+      color: var(--gold); font-size: 9px; line-height: 1.4; font-weight: 800;
+      letter-spacing: .17em; text-transform: uppercase;
+    }
+    .eyebrow::before { content: ""; width: 19px; height: 1px; background: var(--gold); opacity: .9; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 {
+      max-width: 520px; margin-bottom: 13px; color: #fff;
+      font-size: clamp(30px, 5.2vw, 42px); line-height: 1.04; letter-spacing: -.055em; font-weight: 800;
+    }
+    h1 em, .gold { color: var(--gold); font-style: normal; }
+    .lead { max-width: 510px; margin-bottom: 20px; color: #c2cfdd; font-size: 13px; line-height: 1.65; }
+    .editorial-stage {
+      position: relative; min-height: 172px; margin: 17px 0 20px; overflow: hidden;
+      border: 1px solid rgba(130, 175, 218, .2); border-radius: 16px;
+      background:
+        radial-gradient(circle at 76% 48%, rgba(44, 117, 177, .28), transparent 29%),
+        linear-gradient(115deg, rgba(14, 45, 79, .65), rgba(5, 19, 39, .38));
+    }
+    .stage-orbit {
+      position: absolute; width: 270px; height: 104px; right: -20px; top: 23px;
+      border: 1px solid rgba(243,200,93,.55); border-radius: 50%; transform: rotate(-23deg);
+    }
+    .stage-orbit.two {
+      width: 310px; height: 144px; right: -42px; top: 7px;
+      border-color: rgba(103,173,226,.36); transform: rotate(18deg);
+    }
+    .stage-sheet {
+      position: absolute; right: 54px; top: 20px; width: 148px; height: 132px;
+      padding: 13px 12px; border: 1px solid rgba(243,200,93,.65); border-radius: 7px;
+      background: linear-gradient(145deg, rgba(20,55,91,.96), rgba(5,22,44,.96));
+      box-shadow: 0 13px 35px rgba(0,0,0,.35), 0 0 24px rgba(59,139,201,.15);
+      transform: rotate(7deg);
+    }
+    .sheet-kicker { color: var(--gold); font-size: 6px; font-weight: 900; letter-spacing: .17em; }
+    .sheet-title { margin: 9px 0 9px; color: #fff; font-size: 13px; line-height: 1.05; font-weight: 800; }
+    .sheet-line { height: 3px; margin: 6px 0; border-radius: 4px; background: rgba(169,193,218,.24); }
+    .sheet-line:nth-of-type(3) { width: 77%; background: rgba(243,200,93,.65); }
+    .sheet-line:nth-of-type(4) { width: 88%; }
+    .sheet-line:nth-of-type(5) { width: 58%; }
+    .stage-pen {
+      position: absolute; right: 195px; top: 55px; width: 8px; height: 105px;
+      border-radius: 8px; background: linear-gradient(90deg, #c18b30, #ffe49b, #9d6b20);
+      transform: rotate(36deg); box-shadow: 0 0 17px rgba(243,200,93,.45);
+    }
+    .stage-label {
+      position: absolute; left: 18px; bottom: 16px; color: #b9c9d9;
+      font-size: 8px; font-weight: 800; letter-spacing: .15em; text-transform: uppercase;
+    }
+    .stage-symbol {
+      position: absolute; left: 22px; top: 22px; color: var(--gold);
+      font-family: Georgia, serif; font-size: 44px; line-height: 1; opacity: .9;
+    }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; margin: 18px 0 21px; }
+    .stat { padding: 11px 10px; border: 1px solid var(--line); border-radius: 10px; background: rgba(255,255,255,.035); }
+    .stat strong { display: block; color: var(--gold); font-size: 16px; line-height: 1.1; }
+    .stat span { display: block; margin-top: 5px; color: #aebfd0; font-size: 8px; letter-spacing: .08em; text-transform: uppercase; }
+    .primary, .secondary {
+      display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+      min-height: 44px; padding: 0 17px; border: 0; border-radius: 9px;
+      font-size: 10px; font-weight: 800; transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+    }
+    .primary { color: #15233a; background: linear-gradient(135deg, #ffe08a, #efbd4b); box-shadow: 0 8px 22px rgba(243,200,93,.18); }
+    .primary:hover { transform: translateY(-2px); box-shadow: 0 12px 26px rgba(243,200,93,.28); }
+    .secondary { color: #d8e3ee; border: 1px solid var(--line); background: rgba(255,255,255,.045); }
+    .secondary:hover { background: rgba(255,255,255,.09); }
+    .arrow { font-size: 15px; line-height: 0; }
+    .note { margin: 12px 0 0; color: #8fa4bb; font-size: 9px; line-height: 1.55; }
+    .form-intro { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
+    .form-intro h1 { margin-bottom: 5px; font-size: clamp(27px, 4.6vw, 35px); }
+    .step-chip {
+      flex: 0 0 auto; padding: 7px 9px; border: 1px solid rgba(243,200,93,.28);
+      border-radius: 99px; color: var(--gold-2); background: rgba(243,200,93,.07);
+      font-size: 8px; font-weight: 800; letter-spacing: .12em;
+    }
+    .field { margin: 14px 0; }
+    .field label {
+      display: block; margin-bottom: 7px; color: #dbe5ef; font-size: 9px;
+      font-weight: 800; letter-spacing: .1em; text-transform: uppercase;
+    }
+    .field small { display: block; margin-top: 6px; color: #8197ae; font-size: 9px; line-height: 1.45; }
+    .control {
+      width: 100%; min-height: 43px; padding: 11px 13px; color: #fff;
+      border: 1px solid rgba(153,187,221,.32); border-radius: 9px;
+      background: rgba(2,13,28,.58); font-size: 11px;
+    }
+    .control::placeholder { color: #70869f; }
+    textarea.control { min-height: 72px; resize: vertical; }
+    select.control { color-scheme: dark; }
+    .choice-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .choice {
+      min-height: 45px; display: flex; align-items: center; gap: 9px; padding: 9px 10px;
+      border: 1px solid rgba(164,191,220,.2); border-radius: 9px;
+      color: #cbd8e5; background: rgba(255,255,255,.035);
+      font-size: 10px; font-weight: 700; text-align: left; line-height: 1.35;
+    }
+    .choice::before {
+      content: ""; flex: 0 0 13px; width: 13px; height: 13px;
+      border: 1px solid rgba(174,197,221,.5); border-radius: 50%;
+    }
+    .choice[aria-pressed="true"] {
+      border-color: rgba(243,200,93,.68); color: #fff;
+      background: linear-gradient(120deg, rgba(243,200,93,.13), rgba(255,255,255,.035));
+      box-shadow: 0 0 0 1px rgba(243,200,93,.08) inset;
+    }
+    .choice[aria-pressed="true"]::before {
+      border: 4px solid var(--gold); background: #102846; box-shadow: 0 0 9px rgba(243,200,93,.28);
+    }
+    .form-error { min-height: 16px; margin: 7px 0 0; color: #ffb0a8; font-size: 10px; }
+    .form-actions { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 18px; }
+    .text-button { padding: 7px 0; border: 0; color: #9fb1c5; background: transparent; font-size: 10px; font-weight: 700; }
+    .text-button:hover { color: var(--gold); }
+    .result-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+    .result-top h1 { max-width: 475px; margin-bottom: 8px; font-size: clamp(25px, 4.4vw, 34px); }
+    .result-tag {
+      flex: 0 0 auto; padding: 7px 9px; border: 1px solid rgba(142,216,176,.27);
+      border-radius: 99px; color: var(--green); background: rgba(142,216,176,.07);
+      font-size: 8px; font-weight: 800; letter-spacing: .1em;
+    }
+    .result-lead { max-width: 520px; margin-bottom: 17px; color: #b9c9d9; font-size: 11px; line-height: 1.6; }
+    .result-card {
+      margin: 12px 0; padding: 14px 15px; border: 1px solid var(--line);
+      border-radius: 11px; background: rgba(255,255,255,.035);
+    }
+    .result-card.featured {
+      border-color: rgba(243,200,93,.3);
+      background: linear-gradient(115deg, rgba(243,200,93,.085), rgba(255,255,255,.025));
+    }
+    .card-kicker {
+      margin-bottom: 7px; color: var(--gold); font-size: 8px; font-weight: 900;
+      letter-spacing: .14em; text-transform: uppercase;
+    }
+    .result-card h2 { margin-bottom: 7px; color: #fff; font-size: 17px; line-height: 1.2; letter-spacing: -.025em; }
+    .result-card p { margin: 0; color: #b7c6d5; font-size: 10px; line-height: 1.6; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+    .mini-card {
+      padding: 11px 12px; border: 1px solid var(--line); border-radius: 9px;
+      background: rgba(255,255,255,.025);
+    }
+    .mini-card strong { display: block; margin-bottom: 5px; color: #fff; font-size: 10px; }
+    .mini-card span { color: #aebfd0; font-size: 9px; line-height: 1.5; }
+    .outline-list { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; counter-reset: outline; }
+    .outline-list li {
+      position: relative; display: grid; grid-template-columns: 23px 1fr; gap: 8px;
+      color: #dce5ee; font-size: 10px; line-height: 1.5; counter-increment: outline;
+    }
+    .outline-list li::before {
+      content: counter(outline, decimal-leading-zero); color: var(--gold);
+      font-size: 9px; font-weight: 900; letter-spacing: .04em;
+    }
+    .question-list { display: grid; gap: 7px; margin: 0; padding: 0; list-style: none; }
+    .question-list li { display: flex; gap: 8px; color: #bdcbd9; font-size: 10px; line-height: 1.5; }
+    .question-list li::before { content: "↗"; color: var(--gold); font-weight: 900; }
+    .prompt-box {
+      padding: 12px; border: 1px solid rgba(116,171,217,.25); border-radius: 9px;
+      color: #c7d5e3; background: rgba(2,13,28,.48);
+      font-size: 10px; line-height: 1.65; white-space: pre-wrap;
+    }
+    .prompt-actions { display: flex; justify-content: flex-end; margin-top: 9px; }
+    .prompt-actions button { min-height: 34px; padding: 0 11px; font-size: 9px; }
+    .gold-panel {
+      position: relative; overflow: hidden; margin-top: 16px; padding: 16px;
+      border: 1px solid rgba(243,200,93,.45); border-radius: 12px; color: #17243a;
+      background: radial-gradient(circle at 95% 5%, rgba(255,255,255,.55), transparent 30%),
+                  linear-gradient(125deg, #ffe9ad 0%, #f3c85d 55%, #dca83d 100%);
+      box-shadow: 0 12px 30px rgba(243,200,93,.1);
+    }
+    .gold-panel::after {
+      content: ""; position: absolute; width: 150px; height: 150px; right: -68px; bottom: -95px;
+      border: 1px solid rgba(18,42,69,.2); border-radius: 50%;
+      box-shadow: 0 0 0 14px rgba(18,42,69,.035), 0 0 0 30px rgba(18,42,69,.025);
+      pointer-events: none;
+    }
+    .gold-panel .card-kicker { color: #654a16; }
+    .gold-panel h2 { position: relative; z-index: 1; max-width: 420px; margin-bottom: 7px; color: #10233e; font-size: 18px; }
+    .gold-panel p { position: relative; z-index: 1; max-width: 450px; margin-bottom: 12px; color: #59471f; font-size: 10px; line-height: 1.5; }
+    .gold-panel .primary { position: relative; z-index: 1; color: #fff; background: #102b4c; box-shadow: none; }
+    .disclaimer { margin-top: 14px; padding-top: 11px; border-top: 1px solid var(--line); color: #8295aa; font-size: 8px; line-height: 1.55; }
+    .bottombar {
+      display: flex; justify-content: space-between; align-items: center; gap: 12px;
+      min-height: 38px; padding: 8px 24px; border-top: 1px solid rgba(190,211,235,.11);
+      color: #8297ae; font-size: 8px; letter-spacing: .04em; background: rgba(2,12,27,.2);
+    }
+    .bottombar strong { color: #d8c28d; font-weight: 700; }
+    @media (max-width: 640px) {
+      body { display: block; padding: 0; background: var(--navy); }
+      .app { width: 100%; height: 100svh; max-height: none; aspect-ratio: auto; border: 0; border-radius: 0; box-shadow: none; }
+      .topbar { min-height: 62px; padding: 13px 19px; }
+      .content { padding: 24px 21px 28px; }
+      .bottombar { padding: 9px 19px; }
+      h1 { font-size: clamp(31px, 9vw, 39px); }
+      .editorial-stage { min-height: 158px; }
+      .stage-sheet { right: 34px; }
+      .stage-pen { right: 175px; }
+      .form-intro { align-items: flex-start; }
+      .result-top { display: block; }
+      .result-tag { display: inline-block; margin-bottom: 11px; }
+    }
+    @media (max-width: 380px) {
+      .content { padding-left: 17px; padding-right: 17px; }
+      .choice-grid, .two-col { grid-template-columns: 1fr; }
+      .stats { gap: 6px; }
+      .stat { padding: 9px 7px; }
+      .stage-sheet { right: 17px; }
+      .stage-pen { right: 155px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+    }
+    @media print {
+      @page { size: A4; margin: 14mm; }
+      body { display: block; padding: 0; background: #fff; color: #12243b; }
+      .app { width: 100%; max-width: 100%; height: auto; max-height: none; aspect-ratio: auto; overflow: visible; border: 0; border-radius: 0; box-shadow: none; background: #fff; color: #12243b; }
+      .app::before, .app::after, .topbar, .bottombar, .result-actions, .prompt-actions, .gold-panel .primary { display: none !important; }
+      .content { overflow: visible; padding: 0; }
+      .eyebrow, .card-kicker { color: #8b651b; }
+      .result-top h1, .result-card h2, .mini-card strong { color: #12243b; }
+      .result-lead, .result-card p, .mini-card span, .outline-list li, .question-list li { color: #35485e; }
+      .result-card, .mini-card, .prompt-box { border-color: #d7dce2; background: #f7f5ef; color: #25364b; break-inside: avoid; }
+      .prompt-box { white-space: pre-wrap; }
+      .gold-panel { border-color: #d7bd77; background: #fff4d5; break-inside: avoid; }
+      .gold-panel h2 { color: #12243b; }
+      .gold-panel p { color: #59471f; }
+      .disclaimer { color: #526276; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand" aria-label="Wendell Soares, estratégia e autoridade digital">
+        <div class="brand-mark" aria-hidden="true">WS</div>
+        <div>
+          <div class="brand-name">WENDELL SOARES</div>
+          <div class="brand-sub">ESTRATÉGIA • CONTEÚDO • AUTORIDADE</div>
+        </div>
+      </div>
+      <div class="top-tag">FERRAMENTA 03<br>ESTÚDIO EDITORIAL</div>
+    </header>
+    <main class="content" id="content" aria-live="polite"></main>
+    <footer class="bottombar">
+      <span>IDEIAS COM ESTRATÉGIA ENCONTRAM SUA ÓRBITA.</span>
+      <strong>WS / 03</strong>
+    </footer>
+  </div>
+
+  <script>
+    (() => {
+      "use strict";
+
+      // Personalização rápida:
+      // Troque pelo endereço direto da sua página de contato, se desejar.
+      const CONTACT_URL = "https://wendellsoares.jor.br";
+
+      const goals = {
+        authority: {
+          label: "Construir autoridade e reputação",
+          intent: "Autoridade, consideração e diferenciação",
+          angle: "Construa uma perspectiva própria sobre o tema. Explique critérios, decisões e aprendizados que demonstrem experiência, em vez de apenas reunir informações básicas.",
+          guidance: "Inclua exemplos reais, pontos de vista fundamentados, autoria identificável e evidências que sustentem as afirmações. Evite promessas genéricas.",
+          questions: [
+            "Quais decisões diferenciam uma abordagem superficial de uma abordagem realmente profissional?",
+            "Que erros recorrentes o público poderia evitar?",
+            "Que experiência, exemplo ou evidência ajuda a demonstrar domínio do assunto?"
+          ],
+          seo: "Trabalhe o tema central e seus subtemas com profundidade, conectando o artigo a páginas relacionadas do próprio site."
+        },
+        seo: {
+          label: "Atrair tráfego pelo Google",
+          intent: "Informativa, com possibilidade de aprofundamento comercial",
+          angle: "Responda à necessidade de busca de forma completa e organizada. Comece pela dúvida principal e conduza o leitor para critérios, exemplos e próximos passos.",
+          guidance: "Use um título descritivo, subtítulos objetivos, linguagem natural, respostas úteis e links internos pertinentes. Não repita palavras-chave artificialmente.",
+          questions: [
+            "O que uma pessoa precisa entender primeiro sobre o tema?",
+            "Quais critérios ajudam a comparar opções ou tomar uma decisão?",
+            "Quais dúvidas relacionadas costumam surgir antes e depois da busca inicial?"
+          ],
+          seo: "Escolha uma palavra-chave principal, cubra variações semânticas relevantes e conecte o conteúdo a páginas de serviço e materiais complementares."
+        },
+        geo: {
+          label: "Ser melhor compreendido por mecanismos de IA",
+          intent: "Explicativa, contextual e orientada a perguntas",
+          angle: "Organize o conteúdo para que pessoas e sistemas consigam identificar claramente o assunto, as entidades envolvidas, as definições e as respostas.",
+          guidance: "Apresente definições diretas, contexto, autoria, fontes verificáveis e informações consistentes sobre a marca. Dados estruturados podem complementar a clareza do conteúdo, mas não garantem citações por IA.",
+          questions: [
+            "O que é o tema e em quais situações ele se aplica?",
+            "Quais entidades, conceitos ou critérios precisam ser definidos para evitar ambiguidades?",
+            "Quais fontes e evidências confiáveis sustentam as respostas?"
+          ],
+          seo: "Use perguntas como subtítulos quando fizer sentido, respostas diretas, autoria clara, referências e dados estruturados adequados ao conteúdo."
+        },
+        conversion: {
+          label: "Atrair clientes e gerar conversões",
+          intent: "Comercial, investigativa e orientada à decisão",
+          angle: "Parta de um problema concreto do público e mostre como avaliar caminhos possíveis. Ajude a pessoa a reconhecer o momento de agir sem transformar o conteúdo em propaganda.",
+          guidance: "Explique para quem a solução faz sentido, quais resultados podem ser avaliados, quais objeções merecem resposta e qual é o próximo passo comercial.",
+          questions: [
+            "Quais sinais indicam que o público precisa resolver esse problema?",
+            "O que deve ser avaliado antes de contratar ou escolher uma solução?",
+            "Quais provas, exemplos ou informações reduzem a insegurança na decisão?"
+          ],
+          seo: "Aproxime o conteúdo de páginas comerciais relevantes e inclua chamadas para ação coerentes com a etapa de decisão do leitor."
+        }
+      };
+
+      const formats = {
+        blog: {
+          label: "Artigo para blog",
+          description: "Conteúdo aprofundado para explicar, responder dúvidas e construir presença orgânica.",
+          structure: [
+            "Abertura: apresente a situação ou dúvida que leva o leitor ao tema.",
+            "Contexto: defina o assunto e explique por que ele importa para o público.",
+            "Desenvolvimento: organize os critérios, etapas ou argumentos em blocos claros.",
+            "Aplicação: traga exemplos, cenários ou orientações práticas.",
+            "Conclusão: sintetize os aprendizados e indique um próximo passo coerente."
+          ],
+          promptFormat: "artigo para blog, com título, introdução, subtítulos hierárquicos, desenvolvimento aprofundado, conclusão e chamada para ação contextual"
+        },
+        linkedin: {
+          label: "Publicação para LinkedIn",
+          description: "Uma ideia central com ponto de vista profissional e conversa com a audiência.",
+          structure: [
+            "Gancho: abra com uma observação, pergunta ou contraste relevante.",
+            "Tese: apresente a ideia principal em uma frase clara.",
+            "Argumento: desenvolva dois ou três pontos que sustentem a tese.",
+            "Exemplo: ilustre com uma situação real ou hipótese identificada como tal.",
+            "Fechamento: convide a audiência a refletir ou compartilhar experiências."
+          ],
+          promptFormat: "publicação para LinkedIn, com abertura forte, parágrafos curtos, ponto de vista profissional, exemplo e fechamento conversacional"
+        },
+        landing: {
+          label: "Página comercial",
+          description: "Uma página orientada a apresentar uma solução e ajudar o visitante a decidir.",
+          structure: [
+            "Proposta de valor: deixe claro o que é oferecido e para quem.",
+            "Problema: descreva a necessidade que leva o visitante a buscar uma solução.",
+            "Abordagem: explique como o serviço ou produto funciona.",
+            "Benefícios e evidências: apresente entregáveis, diferenciais e provas verificáveis.",
+            "Ação: responda às principais objeções e convide para o próximo passo."
+          ],
+          promptFormat: "estrutura de página comercial com headline, proposta de valor, problema, abordagem, benefícios, evidências, perguntas frequentes e chamada para ação"
+        },
+        social: {
+          label: "Carrossel para redes sociais",
+          description: "Uma sequência visual curta que transforma uma ideia em aprendizado compartilhável.",
+          structure: [
+            "Tela 1: uma pergunta ou afirmação que apresente a tensão central.",
+            "Tela 2: explique o problema ou contexto em linguagem simples.",
+            "Tela 3: apresente o primeiro critério ou aprendizado.",
+            "Tela 4: desenvolva um exemplo ou erro frequente.",
+            "Tela 5: entregue uma orientação prática.",
+            "Tela 6: conclua com síntese e convite para continuar a conversa."
+          ],
+          promptFormat: "roteiro de carrossel para redes sociais, com seis telas, textos curtos, progressão lógica, orientação visual e chamada final"
+        }
+      };
+
+      const titlePatterns = {
+        authority: [
+          "{topic}: o que uma abordagem estratégica precisa considerar",
+          "Além do básico: como pensar {topic} com visão profissional",
+          "{topic}: critérios que ajudam a construir confiança e autoridade"
+        ],
+        seo: [
+          "{topic}: guia prático para {audience}",
+          "Como avaliar {topic}: critérios, etapas e erros comuns",
+          "{topic}: dúvidas importantes e caminhos para começar"
+        ],
+        geo: [
+          "{topic}: respostas claras para as principais dúvidas de {audience}",
+          "O que é {topic}? Entenda conceitos, aplicações e critérios",
+          "{topic} explicado: como funciona e quando faz sentido"
+        ],
+        conversion: [
+          "Quando investir em {topic}? Sinais e critérios para decidir",
+          "Como {topic} pode ajudar {audience} a resolver desafios concretos",
+          "{topic}: o que avaliar antes de escolher uma solução"
+        ]
+      };
+
+      const state = {
+        screen: "welcome",
+        topic: "",
+        audience: "",
+        context: "",
+        goal: "authority",
+        format: "blog",
+        variation: 0,
+        resultText: ""
+      };
+
+      const content = document.getElementById("content");
+
+      function escapeHtml(value) {
+        return String(value).replace(/[&<>"']/g, char => ({
+          "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;"
+        }[char]));
+      }
+
+      function clean(value) {
+        return value.trim().replace(/\s+/g, " ");
+      }
+
+      function renderWelcome() {
+        content.innerHTML = `
+          <section>
+            <p class="eyebrow">Estratégia • Conteúdo • SEO • GEO</p>
+            <h1>Ideias que constroem <em>autoridade.</em></h1>
+            <p class="lead">Transforme um assunto em uma pauta estratégica. Receba um título, um ângulo editorial, uma estrutura de conteúdo e um prompt pronto para desenvolver sua próxima publicação.</p>
+
+            <div class="editorial-stage" aria-hidden="true">
+              <div class="stage-orbit"></div><div class="stage-orbit two"></div>
+              <div class="stage-symbol">“</div>
+              <div class="stage-sheet">
+                <div class="sheet-kicker">ESTÚDIO / PAUTA 01</div>
+                <div class="sheet-title">Uma ideia.<br>Várias possibilidades.</div>
+                <div class="sheet-line"></div><div class="sheet-line"></div><div class="sheet-line"></div>
+                <div style="margin-top:11px;color:#f3c85d;font-size:7px;font-weight:800;letter-spacing:.12em">ESTRATÉGIA EDITORIAL</div>
+              </div>
+              <div class="stage-pen"></div>
+              <div class="stage-label">Da palavra-chave à estratégia de conteúdo</div>
+            </div>
+
+            <div class="stats" aria-label="O que você recebe">
+              <div class="stat"><strong>01</strong><span>Pauta estratégica</span></div>
+              <div class="stat"><strong>04</strong><span>Objetivos</span></div>
+              <div class="stat"><strong>04</strong><span>Formatos</span></div>
+            </div>
+
+            <button class="primary" data-action="start">Criar minha pauta <span class="arrow">↗</span></button>
+            <p class="note">Gratuito, sem cadastro e sem depender de uma API. Você recebe uma primeira direção editorial personalizada com base nas informações fornecidas.</p>
+          </section>`;
+      }
+
+      function renderForm() {
+        content.innerHTML = `
+          <section>
+            <div class="form-intro">
+              <div>
+                <p class="eyebrow">01 / Briefing editorial</p>
+                <h1>Vamos encontrar o <em>ângulo certo.</em></h1>
+                <p class="lead" style="margin-bottom:0;font-size:11px">Preencha o essencial. Em instantes, você terá uma direção de conteúdo para desenvolver.</p>
+              </div>
+              <span class="step-chip">RÁPIDO / 1 MIN</span>
+            </div>
+
+            <div class="field">
+              <label for="topic">Qual assunto ou serviço você quer trabalhar?</label>
+              <input class="control" id="topic" maxlength="90" placeholder="Ex.: arquitetura sustentável, consultoria empresarial..." value="${escapeHtml(state.topic)}">
+              <small>Use um tema específico. Quanto mais claro o assunto, melhor será a direção editorial.</small>
+            </div>
+
+            <div class="field">
+              <label for="audience">Quem você deseja alcançar?</label>
+              <input class="control" id="audience" maxlength="90" placeholder="Ex.: empresários, gestores, profissionais de saúde..." value="${escapeHtml(state.audience)}">
+            </div>
+
+            <div class="field">
+              <label>Qual é o principal objetivo desta pauta?</label>
+              <div class="choice-grid" id="goal-choices">
+                ${Object.entries(goals).map(([key, goal]) => `
+                  <button type="button" class="choice" data-choice="goal" data-value="${key}" aria-pressed="${state.goal === key}">
+                    ${escapeHtml(goal.label)}
+                  </button>`).join("")}
+              </div>
+            </div>
+
+            <div class="field">
+              <label>Onde esse conteúdo será publicado?</label>
+              <div class="choice-grid" id="format-choices">
+                ${Object.entries(formats).map(([key, format]) => `
+                  <button type="button" class="choice" data-choice="format" data-value="${key}" aria-pressed="${state.format === key}">
+                    ${escapeHtml(format.label)}
+                  </button>`).join("")}
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="context">Algum diferencial, serviço ou contexto? <span style="color:#8297ae;font-weight:500">(opcional)</span></label>
+              <textarea class="control" id="context" maxlength="240" placeholder="Ex.: atendimento personalizado, atuação regional, experiência em projetos...">${escapeHtml(state.context)}</textarea>
+            </div>
+
+            <p class="form-error" id="form-error" role="alert"></p>
+            <div class="form-actions">
+              <button class="text-button" data-action="back">← Voltar</button>
+              <button class="primary" data-action="generate">Gerar minha pauta <span class="arrow">↗</span></button>
+            </div>
+          </section>`;
+
+        document.getElementById("goal-choices").addEventListener("click", event => {
+          const button = event.target.closest("[data-value]");
+          if (!button) return;
+          state.goal = button.dataset.value;
+          updateChoiceStates();
+        });
+        document.getElementById("format-choices").addEventListener("click", event => {
+          const button = event.target.closest("[data-value]");
+          if (!button) return;
+          state.format = button.dataset.value;
+          updateChoiceStates();
+        });
+      }
+
+      function updateChoiceStates() {
+        document.querySelectorAll('[data-choice="goal"]').forEach(button => {
+          button.setAttribute("aria-pressed", String(button.dataset.value === state.goal));
+        });
+        document.querySelectorAll('[data-choice="format"]').forEach(button => {
+          button.setAttribute("aria-pressed", String(button.dataset.value === state.format));
+        });
+      }
+
+      function buildResult() {
+        const topic = clean(state.topic);
+        const audience = clean(state.audience) || "seu público";
+        const goal = goals[state.goal];
+        const format = formats[state.format];
+        const titleList = titlePatterns[state.goal];
+        const title = titleList[state.variation % titleList.length]
+          .replaceAll("{topic}", topic)
+          .replaceAll("{audience}", audience);
+
+        const contextLine = clean(state.context);
+        const contextSentence = contextLine
+          ? ` Considere também este contexto informado: ${contextLine}.`
+          : "";
+
+        const outline = format.structure.map(item => `<li>${escapeHtml(item)}</li>`).join("");
+        const questions = goal.questions.map(item => `<li>${escapeHtml(item.replaceAll("o tema", topic).replaceAll("do assunto", topic))}</li>`).join("");
+
+        const prompt = [
+          `Atue como estrategista editorial com experiência em conteúdo, posicionamento e comunicação.`,
+          `Desenvolva ${format.promptFormat} sobre o tema "${topic}", direcionado a ${audience}.`,
+          `Objetivo principal: ${goal.label.toLowerCase()}.`,
+          `Ângulo editorial: ${goal.angle}`,
+          `Orientação estratégica: ${goal.guidance}`,
+          contextLine ? `Contexto e diferencial da marca: ${contextLine}.` : "",
+          `Use linguagem clara, original e específica. Organize as ideias com lógica, evite generalizações e não invente dados, estatísticas, depoimentos ou resultados.`,
+          `Quando uma afirmação depender de evidência, indique que ela precisa ser validada e sugira fontes confiáveis. Termine com uma chamada para ação coerente com o objetivo.`,
+          `Antes de finalizar, verifique se o conteúdo responde às dúvidas reais de ${audience} e se mantém foco em "${topic}".`
+        ].filter(Boolean).join("\n\n");
+
+        const questionsText = goal.questions.map(item => "- " + item).join("\n");
+        const outlineText = format.structure.map((item, index) => `${index + 1}. ${item}`).join("\n");
+
+        content.innerHTML = `
+          <section>
+            <p class="eyebrow">Sua pauta está pronta / ${escapeHtml(format.label)}</p>
+            <div class="result-top">
+              <h1>Uma ideia com <em>direção.</em></h1>
+              <span class="result-tag">PAUTA GERADA</span>
+            </div>
+            <p class="result-lead">Abaixo está uma primeira direção editorial para <strong style="color:#fff">${escapeHtml(topic)}</strong>, pensada para ${escapeHtml(audience)}.</p>
+
+            <article class="result-card featured">
+              <div class="card-kicker">01 / Título sugerido</div>
+              <h2>${escapeHtml(title)}</h2>
+              <p>Formato: ${escapeHtml(format.label)}. Objetivo: ${escapeHtml(goal.label)}.</p>
+            </article>
+
+            <div class="two-col">
+              <div class="mini-card">
+                <strong>Intenção da pauta</strong>
+                <span>${escapeHtml(goal.intent)}</span>
+              </div>
+              <div class="mini-card">
+                <strong>Formato escolhido</strong>
+                <span>${escapeHtml(format.description)}</span>
+              </div>
+            </div>
+
+            <article class="result-card">
+              <div class="card-kicker">02 / Ângulo editorial</div>
+              <h2>Qual história vale contar?</h2>
+              <p>${escapeHtml(goal.angle)}${escapeHtml(contextSentence)}</p>
+            </article>
+
+            <article class="result-card">
+              <div class="card-kicker">03 / Estrutura recomendada</div>
+              <h2>Uma sequência para desenvolver a ideia</h2>
+              <ol class="outline-list">${outline}</ol>
+            </article>
+
+            <article class="result-card">
+              <div class="card-kicker">04 / Perguntas estratégicas</div>
+              <h2>O que o conteúdo precisa responder?</h2>
+              <ul class="question-list">${questions}</ul>
+            </article>
+
+            <article class="result-card">
+              <div class="card-kicker">05 / Direção de autoridade e encontrabilidade</div>
+              <h2>Como fortalecer a pauta</h2>
+              <p>${escapeHtml(goal.guidance)} ${escapeHtml(goal.seo)}</p>
+            </article>
+
+            <article class="result-card">
+              <div class="card-kicker">06 / Prompt estratégico pronto</div>
+              <h2>Leve a pauta para sua ferramenta de IA</h2>
+              <div class="prompt-box" id="prompt-text">${escapeHtml(prompt)}</div>
+              <div class="prompt-actions">
+                <button class="secondary" data-action="copy-prompt">Copiar prompt <span aria-hidden="true">↗</span></button>
+              </div>
+            </article>
+
+            <div class="gold-panel">
+              <div class="card-kicker">Próximo nível / Estratégia completa</div>
+              <h2>Uma pauta abre caminho. Uma estratégia constrói presença.</h2>
+              <p>Transforme esta ideia em um plano editorial com temas complementares, arquitetura de conteúdo, SEO, GEO, links internos e oportunidades de conversão.</p>
+              <button class="primary" data-action="contact">Quero desenvolver minha estratégia <span class="arrow">↗</span></button>
+            </div>
+
+            <div class="result-actions" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:14px">
+              <button class="secondary" data-action="copy-brief">Copiar briefing completo</button>
+              <button class="secondary" data-action="print">Salvar / imprimir PDF</button>
+              <button class="secondary" data-action="variation">Gerar outro ângulo</button>
+            </div>
+            <p class="disclaimer">Esta ferramenta organiza sugestões editoriais a partir de modelos e regras locais. Não consulta volume de busca, concorrentes, tendências em tempo real ou resultados de mecanismos de IA. Valide dados, fontes, palavras-chave e afirmações antes de publicar.</p>
+            <div style="margin-top:13px"><button class="text-button" data-action="restart">↺ Criar outra pauta</button></div>
+          </section>`;
+
+        state.resultText = [
+          "ESTÚDIO DE PAUTAS DE AUTORIDADE | WENDELL SOARES",
+          `Tema: ${topic}`,
+          `Público: ${audience}`,
+          `Objetivo: ${goal.label}`,
+          `Formato: ${format.label}`,
+          contextLine ? `Contexto: ${contextLine}` : "",
+          "",
+          `TÍTULO SUGERIDO\n${title}`,
+          "",
+          `ÂNGULO EDITORIAL\n${goal.angle}`,
+          "",
+          `ESTRUTURA\n${outlineText}`,
+          "",
+          `PERGUNTAS ESTRATÉGICAS\n${questionsText}`,
+          "",
+          `DIREÇÃO ESTRATÉGICA\n${goal.guidance} ${goal.seo}`,
+          "",
+          `PROMPT\n${prompt}`,
+          "",
+          "Sugestão editorial gerada localmente. Não houve consulta a dados de busca ou tendências em tempo real."
+        ].filter(Boolean).join("\n");
+      }
+
+      function generate() {
+        const topicInput = document.getElementById("topic");
+        const audienceInput = document.getElementById("audience");
+        const contextInput = document.getElementById("context");
+        const error = document.getElementById("form-error");
+
+        state.topic = clean(topicInput.value);
+        state.audience = clean(audienceInput.value);
+        state.context = clean(contextInput.value);
+
+        if (state.topic.length < 3) {
+          error.textContent = "Digite um assunto um pouco mais específico para criar sua pauta.";
+          topicInput.focus();
+          return;
+        }
+        if (!state.audience) state.audience = "pessoas interessadas em " + state.topic;
+        state.variation = 0;
+        state.screen = "result";
+        renderResult();
+        content.scrollTop = 0;
+      }
+
+      async function copyText(text, button, successLabel) {
+        try {
+          await navigator.clipboard.writeText(text);
+          if (button) {
+            const old = button.textContent;
+            button.textContent = successLabel;
+            setTimeout(() => { if (button.isConnected) button.textContent = old; }, 1800);
+          }
+        } catch {
+          const area = document.createElement("textarea");
+          area.value = text;
+          area.style.position = "fixed";
+          area.style.opacity = "0";
+          document.body.appendChild(area);
+          area.select();
+          try { document.execCommand("copy"); } catch {}
+          area.remove();
+          if (button) button.textContent = "Copie manualmente";
+        }
+      }
+
+      function render() {
+        if (state.screen === "welcome") renderWelcome();
+        else if (state.screen === "form") renderForm();
+        else if (state.screen === "result") renderResult();
+        content.scrollTop = 0;
+      }
+
+      content.addEventListener("click", event => {
+        const button = event.target.closest("[data-action]");
+        if (!button) return;
+        const action = button.dataset.action;
+
+        if (action === "start") {
+          state.screen = "form";
+          render();
+        } else if (action === "back") {
+          state.screen = "welcome";
+          render();
+        } else if (action === "generate") {
+          generate();
+        } else if (action === "copy-prompt") {
+          copyText(document.getElementById("prompt-text").textContent, button, "Prompt copiado ✓");
+        } else if (action === "copy-brief") {
+          copyText(state.resultText, button, "Briefing copiado ✓");
+        } else if (action === "print") {
+          window.print();
+        } else if (action === "variation") {
+          state.variation += 1;
+          renderResult();
+          content.scrollTop = 0;
+        } else if (action === "contact") {
+          window.open(CONTACT_URL, "_blank", "noopener,noreferrer");
+        } else if (action === "restart") {
+          state.screen = "form";
+          state.variation = 0;
+          render();
+        }
+      });
+
+      render();
+    })();
+  </script>
+</body>
+</html>
